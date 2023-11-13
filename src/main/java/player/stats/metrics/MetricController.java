@@ -31,34 +31,34 @@ public class MetricController {
 
                 // Now check if the name value matches any of the metric names
                 if (name.matches("goals|assists")) {
-                    return repository.findAllByNameAndSystemAndTimestampGreaterThanEqual(name, system, from);
+                    return repository.findAllByNameAndSystemAndDateGreaterThanEqual(name, system, from);
                 } else if (!name.matches("goals|assists") && !name.equals("")) {
 
                     // If they don't match any value then it's not a valid name
                     throw new MetricNotFoundException(name);
                 }
-                return repository.findAllByTimestampGreaterThanEqualAndSystem(from, system);
+                return repository.findAllByDateGreaterThanEqualAndSystem(from, system);
             }
             // If only the 'to' timestamp parameter has been provided
             if (!to.equals(0) && from.equals(0)) {
 
                 // Now check if the name value matches any of the metric names
                 if (name.matches("goals|assists")) {
-                    return repository.findAllByNameAndSystemAndTimestampLessThanEqual(name, system, to);
+                    return repository.findAllByNameAndSystemAndDateLessThanEqual(name, system, to);
             } else if (!name.matches("goals|assists") && !name.equals("")) {
                     throw new MetricNotFoundException(name);
                 }
-                return repository.findAllByTimestampLessThanEqualAndSystem(to, system);
+                return repository.findAllByDateLessThanEqualAndSystem(to, system);
             }
             if (!from.equals(0) && !to.equals(0)){
 
                 // Now check if the name value matches any of the metric names
                 if (name.matches("goals|assists")) {
-                    return repository.findAllByNameAndSystemAndTimestampBetween(name, system, from, to);
+                    return repository.findAllByNameAndSystemAndDateBetween(name, system, from, to);
                 } else if (!name.matches("goals|assists") && !name.equals("")) {
                     throw new MetricNotFoundException(name);
                 }
-                return repository.findAllByTimestampBetweenAndSystem(from, to, system);
+                return repository.findAllByDateBetweenAndSystem(from, to, system);
             }
             // If just the 'name' parameter has been provided
             if (name.matches("goals|assists")) {
@@ -136,8 +136,7 @@ public class MetricController {
     @PostMapping("/metrics")
     Metric newMetric(@RequestBody Metric newMetric) {
 
-        newMetric.setDate(new Date());
-        newMetric.setTimestamp((System.currentTimeMillis() / 1000L));
+        newMetric.setDate((System.currentTimeMillis() / 1000L));
 
         String system = newMetric.getSystem();
         String name = newMetric.getName();
@@ -159,10 +158,11 @@ public class MetricController {
 
         String system = newMetric.getSystem();
         String name = newMetric.getName();
+        Long date = newMetric.getDate();
 
         Metric existingValues = repository.findMetricById(id);
 
-        if (newMetric.getName() == null | newMetric.getSystem() == null | !system.equals(existingValues.getSystem())) {
+        if (newMetric.getName() == null | newMetric.getSystem() == null | newMetric.getDate() == null | !system.equals(existingValues.getSystem())) {
             throw new SystemNotFoundException();
         } else if(!name.matches("goals|assists")) {
             throw new MetricNotFoundException();
@@ -173,6 +173,7 @@ public class MetricController {
                 .map(metric -> {
                     metric.setName(newMetric.getName());
                     metric.setValue(newMetric.getValue());
+                    metric.setDate(newMetric.getDate());
                     return repository.save(metric);
                 })
                 .orElseGet(() -> {

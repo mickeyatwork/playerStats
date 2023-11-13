@@ -13,9 +13,8 @@ public class Metric {
     private Long id;
     private String system;
     private String name;
-    private Date date;
+    private Long date;
     private Integer value;
-    private Long timestamp;
 
     public Metric() {
     }
@@ -24,14 +23,6 @@ public class Metric {
         this.system = system;
         this.name = name;
         this.value = value;
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
     }
 
     public Long getId() {
@@ -58,11 +49,11 @@ public class Metric {
         this.name = name;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

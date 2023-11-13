@@ -13,17 +13,17 @@ public interface MetricRepository extends JpaRepository<Metric, Long>, JpaSpecif
 
     List<Metric> findAllBySystem(String system);
 
-    List<Metric> findAllByTimestampGreaterThanEqualAndSystem(Integer from, String system);
+    List<Metric> findAllByDateGreaterThanEqualAndSystem(Integer from, String system);
 
-    List<Metric> findAllByTimestampLessThanEqualAndSystem(Integer to, String system);
+    List<Metric> findAllByDateLessThanEqualAndSystem(Integer to, String system);
 
-    List<Metric> findAllByTimestampBetweenAndSystem(Integer from, Integer to, String system);
+    List<Metric> findAllByDateBetweenAndSystem(Integer from, Integer to, String system);
 
-    List<Metric> findAllByNameAndSystemAndTimestampGreaterThanEqual(String name, String system, Integer from);
+    List<Metric> findAllByNameAndSystemAndDateGreaterThanEqual(String name, String system, Integer from);
 
-    List<Metric> findAllByNameAndSystemAndTimestampLessThanEqual(String name, String system, Integer to);
+    List<Metric> findAllByNameAndSystemAndDateLessThanEqual(String name, String system, Integer to);
 
-    List<Metric> findAllByNameAndSystemAndTimestampBetween(String name, String system, Integer from, Integer to);
+    List<Metric> findAllByNameAndSystemAndDateBetween(String name, String system, Integer from, Integer to);
 
 
 }
