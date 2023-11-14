@@ -50,7 +50,7 @@ Include JSON body, for example:
     {
     "system": "player_stats",
     "name":"assists",
-    "timestamp":"1699897593"
+    "date":"1699897593"
     }
 
 
